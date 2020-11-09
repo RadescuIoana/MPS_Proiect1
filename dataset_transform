@@ -39,21 +39,21 @@ def parse_date(date):
 #functie de parsare si codificare a fiacrui rand
 def my_function(row):
     new_row = []
-    #dată debut simptome declarate
+    #data debut simptome declarate
     new_row.append(parse_date(row[0]))
     #TODO simptome declarate
     new_row.append(row[1])
-    #dată internare
+    #data internare
     new_row.append(parse_date(row[2]))
     #TODO simptome raportate la internare
     new_row.append(row[3])
-    #TODO diagnostic și semne de internare
+    #TODO diagnostic si semne de internare
     new_row.append(row[4])
-    #TODO istoric de călătorie
+    #TODO istoric de calatorie
     new_row.append(row[5])
     #TODO mijloace de transport folosite
     new_row.append(row[6])
-    #TODO confirmare contact cu o persoană infectată
+    #TODO confirmare contact cu o persoana infectata
     new_row.append(row[7])
     return new_row
 
