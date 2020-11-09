@@ -1,0 +1,38 @@
+input_features:
+    -
+        name: Age
+        type: numerical
+        preprocessing:
+          missing_value_strategy: fill_with_mean
+    -
+        name: Sex
+        type: binary
+        preprocessing:
+          missing_value_strategy: fill_with_mean
+    -
+        name: Declared_symptoms
+        type: category
+        preprocessing:
+          missing_value_strategy: fill_with_mean
+    -
+        name: 
+        type: numerical
+    -
+        name: Diagnosis
+        type: category
+    -
+        name: Travel_history
+        type: category
+        preprocessing:
+          missing_value_strategy: fill_with_mean
+    -
+        name: Public_transportation
+        type: category
+    -
+        name: Contact_confirmation
+        type: binary
+
+output_features:
+    -
+        name: Result
+        type: binary
