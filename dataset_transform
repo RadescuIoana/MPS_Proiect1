@@ -40,20 +40,107 @@ def parse_date(date):
 def parse_symptoms(str):
     sum = 0
     str = str.lower()
-    if len(str) == 0 or str.find("nu are") or str.find("fara acuze") or str.find("asimptomatic"):
+    if len(str) == 0:
         return sum
+    #anosmie, lipsa/fara miros
+    if str.find('anosmie') != -1:
+        sum += 1
+    elif(str.find('lips') != -1 or str.find('fara') != -1 or str.find('fără') != -1) and str.find('miros'):
+        sum += 1
+    # ageusie, lipsa/fara gust
+    if str.find('ageuzie') != -1:
+        sum += 1
+    elif (str.find('lips') != -1 or str.find('fara') != -1 or str.find('fără') != -1) and str.find('gust') != -1:
+        sum += 1
+    #inapentență, inapetent
+    if str.find('inapeten') != -1:
+        sum += 1
+    # greata, greturi
+    if str.find('great') != -1 or str.find('greaț') != -1 or str.find('gret') != -1 or str.find('greț') != -1 :
+        sum += 1
+    # conjuctiv, conjuctiva, conjuctivă, conjuctivită, conjuctivita, similar si pentru conjunctiv
+    if str.find('conjuctiv') != -1 or str.find('conjunctiv') != -1:
+        sum += 1
+    # dispnee, dificultati respiratorii
+    if str.find('dispne') != -1:
+        sum += 1
+    elif str.find('respira') != -1:
+        if str.find('grea') != -1 or str.find('greu') != -1 or str.find('dificult') != -1 or str.find('dificil') != -1:
+            sum += 1
+    #slabiciune, oboseala, astenie, scaderea tolerantel la efort, fatigabilitate
+    if str.find('slăbi') != -1 or str.find('slabi') != -1 or str.find('astenie') != -1 or str.find('obos') != -1 or str.find('fatig') != -1:
+        sum += 1
+    elif (str.find('scad') != -1 or str.find('scăd') != -1) and str.find('toleran') != -1 and str.find('efort') != -1:
+        sum += 1
+    # frisoane, frisoană, frison, frisonă
+    if str.find('friso') != -1:
+        sum += 1
+    # voma, varsaturi fara bilioase
+    if str.find('varsatur') != -1 or str.find('vărsătur') != -1 or str.find('vărsatur') != -1 or str.find('varsătur') != -1 or str.find('vars') != -1 or str.find('vărs') != -1:
+        if str.find('bilio') != -1:
+            sum +=1
+    elif str.find('vomă') != -1 or str.find('voma') != -1 or str.find('vomit') != -1:
+        sum += 1
+    # diaree, scaune diareice/modificate
+    if str.find('diare') != -1:
+        sum += 1
+    elif str.find('scaun') != -1 and (str.find('diare') != -1 or str.find('modif') != -1):
+        sum += 1
+    # vertij, ameteala, ametit
+    if str.find('vertij') != -1 or str.find('ameteal') != -1 or str.find('ametit') != -1 or str.find('amețeal') != -1 or str.find('amețit') != -1:
+        sum += 1
+    # febra, fara afrebril si subfebril
     if str.find('febr') != -1 and str.find('afebr') == -1 and str.find('subfebr') == -1:
         sum += 1
-    if str.find('tuse') and (str.find('seac') or str.find('iritativ')):
+    # tuse seaca/iritativa
+    if str.find('tuse') != -1 and (str.find('seac') != -1 or str.find('iritativ') != -1):
         sum += 1
-    if str.find('mialgi'):
+    # mialgie/mialgii, durere/dureri musculara/musculare
+    if str.find('mialgi') != -1:
         sum += 1
-    if str.find('tuse') and (str.find('seac') or str.find('iritativ')):
+    elif str.find('durer') != -1 and str.find('muscul') != -1:
         sum += 1
-
-
-
+    # cefalee, durere cap
+    if str.find('cefale') != -1:
+        sum += 1
+    elif str.find('durer') != -1 and str.find('cap') != -1:
+        sum += 1
+    # adinofagie, disfagie, durere gat
+    if str.find('adinofag') != -1 or str.find('disfag') != -1:
+        sum += 1
+    elif str.find('durer') != -1 and (str.find('gat') != -1 or str.find('gât') != -1):
+        sum += 1
+    # dureri abdominale difuze
+    if str.find('durer') != -1 and str.find('abdo') != -1 and str.find('difuz') != -1:
+        sum += 1
     return sum
+
+def parse_travel_history(date_travel_history):
+    tokens = re.split('[ ,/.-]', date_travel_history)
+    tokens = list(filter(None, tokens))
+
+    if (len(tokens)) < 2:
+        return 0
+
+    for i in range(len(tokens)):
+        if ((i+1) < len(tokens)):
+            if (len(tokens[i]) == 2 and int(tokens[i+1]) == 2020):
+                if int(tokens[i]) >= 3:
+                    return 1
+
+    return 0
+
+def parse_public_transportation(date_public_transportation):
+    tokens = re.split('[ ,.]', date_public_transportation)
+    for i in range(len(tokens)):
+        if 'nu' in tokens[i]:
+            return 0
+        if (tokens[i].lower() == 'da' or tokens[i].lower() == 'autocar'
+            or tokens[i].lower() == 'masina' or tokens[i].lower()== 'mașină'
+            or tokens[i].lower() == 'tren' or tokens[i].lower() == 'tir'):
+            return 1
+        else:
+            return 0
 
 #functie de parsare si codificare a fiacrui rand
 def my_function(row):
