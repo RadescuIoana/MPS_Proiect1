@@ -3,11 +3,20 @@
 import csv
 import re
 import pandas as pd
-#functia de parsare si codificarea a datei
+
+#functie care verifica daca un string este int
+def is_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+#functia de parsare si codificare a datei
 def parse_date(date):
     #citesc pana la delimitator [" ,-./"]
-    #verific fiecare token. Pentru primul token de dim 2:
-    #                                       sau de dim 4:
+    #verific fiecare token. Pentru primul token de dim 2: verific anul, apoi luna
+    #                                       sau de dim 4: verific luna
     tokens = re.split('[ ,-./a-zA-Z]', date)
     tokens = list(filter(None, tokens))
     if len(tokens) < 3:
@@ -17,7 +26,7 @@ def parse_date(date):
         #check day
         if len(tokens[i]) == 2:
             #check_year
-            if (int(tokens[i+2]) == 20 or (int(tokens[i+2]) == 2020) or (int(tokens[i+2]) == 202) or (int(tokens[i+2]) > 2020)):
+            if (int(tokens[i+2]) == 20 or (int(tokens[i+2]) >= 2020) or (int(tokens[i+2]) == 202)):
                 #check month
                 if int(tokens[i+1]) >= 3:
                     return 1
@@ -37,11 +46,15 @@ def parse_date(date):
                 return 0
     return 0
 
+#functia de parsare si codificare a simptomelor
 def parse_symptoms(str):
     sum = 0
     str = str.lower()
     if len(str) == 0:
         return sum
+    #suspect covid
+    if str.find('susp') != -1 and  str.find('cov') != -1:
+        sum += 1
     #anosmie, lipsa/fara miros
     if str.find('anosmie') != -1:
         sum += 1
@@ -118,15 +131,19 @@ def parse_symptoms(str):
 def parse_travel_history(date_travel_history):
     tokens = re.split('[ ,/.-]', date_travel_history)
     tokens = list(filter(None, tokens))
-
+    months = {'mar', 'apr', 'mai', 'iun', 'iul', 'aug', 'sep', 'oct', 'nov', 'noi', 'dec'}
     if (len(tokens)) < 2:
         return 0
 
     for i in range(len(tokens)):
-        if ((i+1) < len(tokens)):
-            if (len(tokens[i]) == 2 and int(tokens[i+1]) == 2020):
-                if int(tokens[i]) >= 3:
-                    return 1
+        if is_int(tokens[i]) == True:
+            if int(tokens[i]) == 2020 or int(tokens[i]) == 20 or int(tokens[i]) == 202:
+                if tokens[i-1] is not None:
+                    if is_int(tokens[i-1]) == True:
+                        if int(tokens[i-1]) >= 3:
+                            return 1
+                    elif tokens[i-1].lower()[:3] in months:
+                        return 1;
 
     return 0
 
@@ -142,12 +159,27 @@ def parse_public_transportation(date_public_transportation):
         else:
             return 0
 
-#functie de parsare si codificare a fiacrui rand
+#functia de parsare si codificarea a informatiilor de contact_confirmation
+def parse_contactConfirmation(old_token):
+    tokens = ["0", "FARA", "neaga", "posibil", "Nou nascut din mama COVID POZITIV"]
+    empty_token = re.match("^$", old_token)
+    regex_token = re.match("^nu(.)*$", old_token, flags=re.I)
+
+    if old_token in tokens:
+        return 0
+    elif empty_token:
+        return 0
+    elif regex_token:
+        return 0
+    else:
+        return 1
+
+# functie de parsare si codificare a fiacrui rand
 def my_function(row):
     new_row = []
-    #data debut simptome declarate
+    # data debut simptome declarate
     new_row.append(parse_date(row[0]))
-    #TODO simptome declarate
+    # simptome declarate
     new_row.append(parse_symptoms(row[1]))
     #data internare
     new_row.append(parse_date(row[2]))
@@ -156,11 +188,11 @@ def my_function(row):
     #TODO diagnostic si semne de internare
     new_row.append(row[4])
     #TODO istoric de calatorie
-    new_row.append(row[5])
+    new_row.append(parse_travel_history(row[5]))
     #TODO mijloace de transport folosite
     new_row.append(row[6])
     #TODO confirmare contact cu o persoana infectata
-    new_row.append(row[7])
+    new_row.append(parse_contactConfirmation(row[7]))
     return new_row
 
 # se citeste setul de date initial si se iau doar coloanele de interes
