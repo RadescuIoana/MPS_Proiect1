@@ -37,13 +37,31 @@ def parse_date(date):
                 return 0
     return 0
 
+def parse_symptoms(str):
+    sum = 0
+    str = str.lower()
+    if len(str) == 0 or str.find("nu are") or str.find("fara acuze") or str.find("asimptomatic"):
+        return sum
+    if str.find('febr') != -1 and str.find('afebr') == -1 and str.find('subfebr') == -1:
+        sum += 1
+    if str.find('tuse') and (str.find('seac') or str.find('iritativ')):
+        sum += 1
+    if str.find('mialgi'):
+        sum += 1
+    if str.find('tuse') and (str.find('seac') or str.find('iritativ')):
+        sum += 1
+
+
+
+    return sum
+
 #functie de parsare si codificare a fiacrui rand
 def my_function(row):
     new_row = []
     #data debut simptome declarate
     new_row.append(parse_date(row[0]))
     #TODO simptome declarate
-    new_row.append(row[1])
+    new_row.append(parse_symptoms(row[1]))
     #data internare
     new_row.append(parse_date(row[2]))
     #TODO simptome raportate la internare

@@ -3,9 +3,7 @@ Data debut simptome(binar) Ioana
 0 -> data gresita sau mai mica de 03-2020, lipsa
 1-> restul
 
-Simptome (numar) = suma Ioana
-?(merge cu -1?)
--1 -> gresit, -. nu, nu are, absente
+Simptome declarate (numar) = suma Ioana
 0 -> asimptomatic
 1-> orice simptom valid COVID
 
@@ -13,6 +11,14 @@ Data internare(binar) Ioana
 
 0 -> data gresita sau mai mica de 03-2020
 1->restul
+
+Simptome raportate la internare (numar) = suma Ioana
+0 -> asimptomatic
+1-> orice simptom valid COVID
+
+Diagnostic si semne de internare Ioana
+0 -> asimptomatic
+1-> orice simptom valid COVID
 
 Istoric calatorie(binar) Manuela
 0 -> nu, neaga/ă, 0, nu e cazul, nu are, nu a calatorit, fara, mu, nu se stie, gresit, (masina personala?)
