@@ -225,9 +225,10 @@ def parse_contactConfirmation(old_token):
         return 1
 
 def parse_result(result):
+    result = result.lower()
     if result is None:
         return 0
-    if result == "pozitiv":
+    if result.find("pozitiv") != -1:
         return 1
     else:
         return 0
