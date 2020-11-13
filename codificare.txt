@@ -33,3 +33,7 @@ Confirmare contact(binar) Ana
 
 0 -> 0, -, fara, neaga, nu, nu este cazul, nu a avut contact, nu avem informatii, nu cunoaste, nu stie, posibil, nou nascut din mama COVID POZITIV
 1 -> 1, da, DA, contact..., focar familial, Pacient
+
+Rezultat
+Pozitiv -> 1
+Negativ/Neconcludent/lipsa ->0

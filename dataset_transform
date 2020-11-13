@@ -50,82 +50,132 @@ def parse_date(date):
 def parse_symptoms(str):
     sum = 0
     str = str.lower()
+    #zero simptome
     if len(str) == 0:
         return sum
+    #negativ Covid
+    if str.find('negativ') != -1:
+        return sum
+
+    #pozitiv, COV confirmat
+    if str.find('pozitiv') != -1 or str.find('itiv') != -1 or str.find('poz') != -1:
+        sum += 2
+    elif str.find('cov') != -1 and (str.find('confirm') != -1 or (str.find('asi') != -1 and str.find('atic') != -1)):
+        sum += 2
     #suspect covid
     if str.find('susp') != -1 and  str.find('cov') != -1:
         sum += 1
-    #anosmie, lipsa/fara miros
-    if str.find('anosmie') != -1:
+    # febra, fara afrebril si subfebril
+    if (str.find('feb') != -1 or str.find('fbr') != -1) and str.find('afeb') == -1 and str.find('afbr') == -1 and str.find('subfebr') == -1 and str.find('subfbr') == -1:
         sum += 1
-    elif(str.find('lips') != -1 or str.find('fara') != -1 or str.find('fără') != -1) and str.find('miros'):
+    # tuse seaca/iritativa
+    if str.find('tus') != -1 and ((str.find('sea') != -1 or str.find('iritativ') != -1)):
         sum += 1
-    # ageusie, lipsa/fara gust
-    if str.find('ageuzie') != -1:
-        sum += 1
-    elif (str.find('lips') != -1 or str.find('fara') != -1 or str.find('fără') != -1) and str.find('gust') != -1:
-        sum += 1
-    #inapentență, inapetent
-    if str.find('inapeten') != -1:
-        sum += 1
-    # greata, greturi
-    if str.find('great') != -1 or str.find('greaț') != -1 or str.find('gret') != -1 or str.find('greț') != -1 :
-        sum += 1
-    # conjuctiv, conjuctiva, conjuctivă, conjuctivită, conjuctivita, similar si pentru conjunctiv
-    if str.find('conjuctiv') != -1 or str.find('conjunctiv') != -1:
-        sum += 1
-    # dispnee, dificultati respiratorii
-    if str.find('dispne') != -1:
-        sum += 1
-    elif str.find('respira') != -1:
-        if str.find('grea') != -1 or str.find('greu') != -1 or str.find('dificult') != -1 or str.find('dificil') != -1:
-            sum += 1
-    #slabiciune, oboseala, astenie, scaderea tolerantel la efort, fatigabilitate
-    if str.find('slăbi') != -1 or str.find('slabi') != -1 or str.find('astenie') != -1 or str.find('obos') != -1 or str.find('fatig') != -1:
+    # slabiciune, oboseala, astenie, scaderea tolerantel la efort, fatigabilitate
+    if str.find('slăbi') != -1 or str.find('slabi') != -1 or str.find('astenie') != -1 or\
+            str.find('obos') != -1 or str.find('fatig') != -1 or  str.find('anem') != -1 or  str.find('somnolen') != -1:
         sum += 1
     elif (str.find('scad') != -1 or str.find('scăd') != -1) and str.find('toleran') != -1 and str.find('efort') != -1:
         sum += 1
-    # frisoane, frisoană, frison, frisonă
-    if str.find('friso') != -1:
+    # anosmie, lipsa/fara miros
+    if str.find('anosmie') != -1:
         sum += 1
-    # voma, varsaturi fara bilioase
-    if str.find('varsatur') != -1 or str.find('vărsătur') != -1 or str.find('vărsatur') != -1 or str.find('varsătur') != -1 or str.find('vars') != -1 or str.find('vărs') != -1:
-        if str.find('bilio') != -1:
-            sum +=1
-    elif str.find('vomă') != -1 or str.find('voma') != -1 or str.find('vomit') != -1:
+    elif (str.find('lips') != -1 or str.find('fara') != -1 or str.find('fără') != -1 or (str.find('pierdere') != -1)) and str.find('miros') != -1:
         sum += 1
-    # diaree, scaune diareice/modificate
-    if str.find('diare') != -1:
+    # ageusie, lipsa/fara gust
+    if str.find('ageuzie') != -1 or str.find('agenzie') != -1:
         sum += 1
-    elif str.find('scaun') != -1 and (str.find('diare') != -1 or str.find('modif') != -1):
+    elif (str.find('lips') != -1 or str.find('fara') != -1 or str.find('fără') != -1 or (str.find('pierdere') != -1)) and str.find('gust') != -1:
         sum += 1
-    # vertij, ameteala, ametit
-    if str.find('vertij') != -1 or str.find('ameteal') != -1 or str.find('ametit') != -1 or str.find('amețeal') != -1 or str.find('amețit') != -1:
-        sum += 1
-    # febra, fara afrebril si subfebril
-    if str.find('febr') != -1 and str.find('afebr') == -1 and str.find('subfebr') == -1:
-        sum += 1
-    # tuse seaca/iritativa
-    if str.find('tuse') != -1 and (str.find('seac') != -1 or str.find('iritativ') != -1):
-        sum += 1
-    # mialgie/mialgii, durere/dureri musculara/musculare
-    if str.find('mialgi') != -1:
-        sum += 1
-    elif str.find('durer') != -1 and str.find('muscul') != -1:
-        sum += 1
-    # cefalee, durere cap
-    if str.find('cefale') != -1:
-        sum += 1
-    elif str.find('durer') != -1 and str.find('cap') != -1:
-        sum += 1
-    # adinofagie, disfagie, durere gat
-    if str.find('adinofag') != -1 or str.find('disfag') != -1:
-        sum += 1
-    elif str.find('durer') != -1 and (str.find('gat') != -1 or str.find('gât') != -1):
-        sum += 1
-    # dureri abdominale difuze
-    if str.find('durer') != -1 and str.find('abdo') != -1 and str.find('difuz') != -1:
-        sum += 1
+    # saturatie <93%
+    if str.find('sat') != -1:
+        x = str.find('sat')
+        m = re.findall('[0-9][0-9]', str[x:])
+        if len(m) > 0:
+            if int(m[0]) < 93:
+                sum += 1
+    # temp > 38
+    if str.find('temp') != -1:
+        x = str.find('temp')
+        m = re.findall('[0-9][0-9]', str[x:])
+        if len(m) > 0:
+            if int(m[0]) > 38:
+                sum += 1
+
+    if sum > 0:
+        # inapentență, inapetent
+        if str.find('inapeten') != -1:
+            sum += 1
+        # greata, greturi
+        if str.find('great') != -1 or str.find('greaț') != -1 or str.find('gret') != -1 or str.find(
+                'greț') != -1:
+            sum += 1
+        # conjuctiv, conjuctiva, conjuctivă, conjuctivită, conjuctivita, similar si pentru conjunctiv
+        if (str.find('conjuctiv') != -1 or str.find('conjunctiv') != -1):
+            sum += 1
+        # dispnee, dificultati respiratorii
+        if str.find('dispn') != -1:
+            sum += 1
+        elif str.find('respira') != -1:
+            if str.find('grea') != -1 or str.find('greu') != -1 or str.find('dificult') != -1 or str.find(
+                    'dificil') != -1 or str.find('insuf') != -1:
+                sum += 1
+        # frisoane, frisoană, frison, frisonă
+        if str.find('friso') != -1:
+            sum += 1
+        # voma, varsaturi fara bilioase
+        if (str.find('arsatur') != -1 or str.find('ărsătur') != -1 or str.find('ărsatur') != -1 or str.find(
+                'arsătur') != -1 or str.find('vars') != -1 or str.find('vărs') != -1):
+            if str.find('bilio') == -1:
+                sum += 1
+        elif str.find('vomă') != -1 or str.find('voma') != -1 or str.find('vomit') != -1:
+            if str.find('bilio') == -1:
+                sum += 1
+        # diaree, scaune diareice/modificate
+        if str.find('diare') != -1:
+            sum += 1
+        elif str.find('scaun') != -1 and (
+                str.find('diare') != -1 or str.find('modif') != -1 or str.find('moi') != -1 or str.find(
+                'moale') != -1 or str.find('apoas') != -1 or str.find('apos') != -1):
+            sum += 1
+        # vertij, ameteala, ametit
+        if (str.find('vertij') != -1 or str.find('ameteal') != -1 or str.find('ametit') != -1 or str.find(
+                'amețeal') != -1 or str.find('amețit') != -1):
+            sum += 1
+        # mialgie/mialgii, durere/dureri musculara/musculare
+        if str.find('mialgi') != -1 or str.find('nialgi') != -1:
+            sum += 1
+        elif str.find('durer') != -1 and str.find('muscul') != -1:
+            sum += 1
+        # cefalee, durere cap
+        if str.find('cefale') != -1:
+            sum += 1
+        elif str.find('durer') != -1 and str.find('cap') != -1:
+            sum += 1
+        # adinofagie, disfagie, durere gat
+        if str.find('adinofag') != -1 or str.find('disfag') != -1 or str.find('difag') != -1 or str.find('difrag') != -1 or str.find('odinofag') != -1:
+            sum += 1
+        elif str.find('durer') != -1 and (str.find('gat') != -1 or str.find('gât') != -1 or str.find('git') != -1 or str.find('gît') != -1):
+            sum += 1
+        # dureri abdominale difuze
+        if str.find('durer') != -1 and str.find('abd') != -1 and str.find('difuz') != -1:
+            sum += 1
+        # afazie, dizartrie
+        if str.find('afazie') != -1 or str.find('dizartrie') != -1:
+            sum += 1
+        # deficit motor
+        if str.find('deficit') != 1 and str.find('motor') != 1:
+            sum += 1
+        # eruptii cutanate la nivelul mainilor si picioarelor
+        if str.find('erup') != 1 and str.find('cutan') != 1 and \
+                ((str.find('membr') != 1 and (str.find('inf') != 1 or str.find('sup') != 1)) or
+                 str.find('picio') != 1 or
+                 str.find('man') != 1 or str.find('main') != 1 or str.find('mân') != 1 or str.find('mâin') != 1):
+            sum += 1
+        # bronhopneumonie, pneumonie
+        if str.find('bronhopneumon') != -1 or str.find('pneumon'):
+            sum += 1
+
     return sum
 
 def parse_travel_history(date_travel_history):
@@ -161,7 +211,7 @@ def parse_public_transportation(date_public_transportation):
 
 #functia de parsare si codificarea a informatiilor de contact_confirmation
 def parse_contactConfirmation(old_token):
-    tokens = ["0", "FARA", "neaga", "posibil", "Nou nascut din mama COVID POZITIV"]
+    tokens = ["0", "FARA", "neaga", "posibil", "Nou nascut din mama COVID POZITIV", "Nou nascut din mama HIV pozitiva"]
     empty_token = re.match("^$", old_token)
     regex_token = re.match("^nu(.)*$", old_token, flags=re.I)
 
@@ -174,6 +224,14 @@ def parse_contactConfirmation(old_token):
     else:
         return 1
 
+def parse_result(result):
+    if result is None:
+        return 0
+    if result == "pozitiv":
+        return 1
+    else:
+        return 0
+
 # functie de parsare si codificare a fiacrui rand
 def my_function(row):
     new_row = []
@@ -183,23 +241,25 @@ def my_function(row):
     new_row.append(parse_symptoms(row[1]))
     #data internare
     new_row.append(parse_date(row[2]))
-    #TODO simptome raportate la internare
-    new_row.append(row[3])
-    #TODO diagnostic si semne de internare
-    new_row.append(row[4])
-    #TODO istoric de calatorie
+    #simptome raportate la internare ?
+    new_row.append(parse_symptoms(row[3]))
+    #diagnostic si semne de internare
+    new_row.append(parse_symptoms(row[4]))
+    #istoric de calatorie
     new_row.append(parse_travel_history(row[5]))
-    #TODO mijloace de transport folosite
-    new_row.append(row[6])
-    #TODO confirmare contact cu o persoana infectata
+    #mijloace de transport folosite
+    new_row.append(parse_public_transportation(row[6]))
+    # confirmare contact cu o persoana infectata
     new_row.append(parse_contactConfirmation(row[7]))
+    # rezultat
+    new_row.append(parse_result(row[8]))
     return new_row
 
 # se citeste setul de date initial si se iau doar coloanele de interes
 dataframe = pd.read_csv("mps.dataset.csv", sep=';')
 keep_col = ["dată debut simptome declarate", "simptome declarate", "dată internare",
             "simptome raportate la internare", "diagnostic și semne de internare", "istoric de călătorie", "mijloace de transport folosite",
-            "confirmare contact cu o persoană infectată"]
+            "confirmare contact cu o persoană infectată", "rezultat testare"]
 new_f = dataframe[keep_col]
 
 #se creeaza noul set de date

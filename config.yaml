@@ -1,15 +1,5 @@
 input_features:
     -
-        name: Age
-        type: numerical
-        preprocessing:
-          missing_value_strategy: fill_with_mean
-    -
-        name: Sex
-        type: binary
-        preprocessing:
-          missing_value_strategy: fill_with_mean
-    -
         name: Declared_symptoms
         type: category
         preprocessing:
