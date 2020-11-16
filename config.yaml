@@ -1,28 +1,33 @@
 input_features:
     -
-        name: Declared_symptoms
-        type: category
-        preprocessing:
-          missing_value_strategy: fill_with_mean
+        name: dată debut simptome declarate
+        type: binary
     -
-        name: 
+        name: simptome declarate
         type: numerical
     -
-        name: Diagnosis
-        type: category
+        name: dată internare
+        type: binary
     -
-        name: Travel_history
-        type: category
-        preprocessing:
-          missing_value_strategy: fill_with_mean
+        name: simptome raportate la internare
+        type: numerical
     -
-        name: Public_transportation
-        type: category
+        name: diagnostic și semne de internare
+        type: numerical
     -
-        name: Contact_confirmation
+        name: istoric de călătorie
+        type: binary
+    -
+        name: mijloace de transport folosite
+        type: binary
+    -
+        name: confirmare contact cu o persoană infectată
         type: binary
 
 output_features:
     -
-        name: Result
+        name: rezultat testare
         type: binary
+
+training:
+    epochs: 10
