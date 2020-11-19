@@ -131,8 +131,8 @@
             "tokenizer": "space"
         },
         "split_probabilities": [
-            0.7,
-            0.3,
+            0.6,
+            0.4,
             0.0
         ],
         "stratify": null,
@@ -173,7 +173,7 @@
         "decay_rate": 0.96,
         "decay_steps": 10000,
         "early_stop": 5,
-        "epochs": 40,
+        "epochs": 20,
         "eval_batch_size": 0,
         "gradient_clipping": null,
         "increase_batch_size_on_plateau": 0,

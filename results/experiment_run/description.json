@@ -1,48 +1,48 @@
 {
     "command": "/Library/Frameworks/Python.framework/Versions/3.8/bin/ludwig experiment --config_file config.yaml --dataset newDataSet.csv",
-    "commit_hash": "e286457764a9",
+    "commit_hash": "4d11002f0197",
     "config": {
         "combiner": {
             "type": "concat"
         },
         "input_features": [
             {
-                "name": "Start_data",
+                "name": "dat\u0103 debut simptome declarate",
                 "tied": null,
                 "type": "binary"
             },
             {
-                "name": "Declared_symptoms",
+                "name": "simptome declarate",
                 "tied": null,
                 "type": "numerical"
             },
             {
-                "name": "Hspotaluzation_data",
+                "name": "dat\u0103 internare",
                 "tied": null,
                 "type": "binary"
             },
             {
-                "name": "Hospitalization_symptoms",
+                "name": "simptome raportate la internare",
                 "tied": null,
                 "type": "numerical"
             },
             {
-                "name": "Diagnosis",
+                "name": "diagnostic \u0219i semne de internare",
                 "tied": null,
                 "type": "numerical"
             },
             {
-                "name": "Travel_history",
+                "name": "istoric de c\u0103l\u0103torie",
                 "tied": null,
                 "type": "binary"
             },
             {
-                "name": "Public_transportation",
+                "name": "mijloace de transport folosite",
                 "tied": null,
                 "type": "binary"
             },
             {
-                "name": "Contact_confirmation",
+                "name": "confirmare contact cu o persoan\u0103 infectat\u0103",
                 "tied": null,
                 "type": "binary"
             }
@@ -56,7 +56,7 @@
                     "robust_lambda": 0,
                     "weight": 1
                 },
-                "name": "Result",
+                "name": "rezultat testare",
                 "reduce_dependencies": "sum",
                 "reduce_input": "sum",
                 "threshold": 0.5,
@@ -133,9 +133,9 @@
                 "tokenizer": "space"
             },
             "split_probabilities": [
-                0.7,
-                0.1,
-                0.2
+                0.6,
+                0.4,
+                0.0
             ],
             "stratify": null,
             "text": {
@@ -175,7 +175,7 @@
             "decay_rate": 0.96,
             "decay_steps": 10000,
             "early_stop": 5,
-            "epochs": 10,
+            "epochs": 20,
             "eval_batch_size": 0,
             "gradient_clipping": null,
             "increase_batch_size_on_plateau": 0,
