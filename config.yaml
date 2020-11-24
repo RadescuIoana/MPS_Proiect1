@@ -1,3 +1,7 @@
+preprocessing:
+    force_split: false
+    split_probabilities: [0.75, 0.25, 0.0]
+    stratify: null
 input_features:
     -
         name: dată debut simptome declarate
@@ -30,4 +34,5 @@ output_features:
         type: binary
 
 training:
-    epochs: 10
+    epochs: 100
+
